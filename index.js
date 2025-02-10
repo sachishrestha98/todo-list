@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const path = require("path"); // Core Node.js module for working with file paths
 const app = express();
@@ -14,8 +15,9 @@ app.use(express.json());
 //write the schema for the todo
 
 //connect to MongoDB
-const mongoUri =
-  "mongodb+srv://sachishrestha1998:h4AETkRFgajrg5f5@cluster0.2dspa.mongodb.net/?retryWrites=true&w=majority&appName=ClusterO";
+console.log("MongoDB URL:", process.env);
+const mongoUri = process.env.MONGO_URI;//process.env.MONGODB_URI is the environment variable that we set in the .env file
+
 //connect to MongoDB
 mongoose
   .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -124,6 +126,8 @@ app.get("/todos/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch todo" });
   }
 });
-app.listen(3000, () => {
-  console.log(`Server is running on http://localhost:3000`);
+
+const PORT = process.env.PORT || 2000;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT} 🚀`);
 });
