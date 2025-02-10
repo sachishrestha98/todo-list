@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const path = require("path"); // Core Node.js module for working with file paths
 const app = express();
@@ -16,7 +16,7 @@ app.use(express.json());
 
 //connect to MongoDB
 console.log("MongoDB URL:", process.env);
-const mongoUri = process.env.MONGO_URI;//process.env.MONGODB_URI is the environment variable that we set in the .env file
+const mongoUri = process.env.MONGO_URI; //process.env.MONGODB_URI is the environment variable that we set in the .env file
 
 //connect to MongoDB
 mongoose
