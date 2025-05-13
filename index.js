@@ -15,7 +15,6 @@ app.use(express.json());
 //write the schema for the todo
 
 //connect to MongoDB
-console.log("MongoDB URL:", process.env);
 const mongoUri = process.env.MONGO_URI; //process.env.MONGODB_URI is the environment variable that we set in the .env file
 
 //connect to MongoDB
