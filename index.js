@@ -37,9 +37,16 @@ app.get("/", function (req, res) {
 });
 
 // Handle form submission
-app.post("/submit", function (req, res) {
-  const userInput = req.body.userInput; // Get the string value from the form
-  res.json({ message: `You submitted: ${userInput}` });
+app.post("/submit", async function (req, res) {
+  try {
+    const userInput = req.body.userInput; // Get the string value from the form
+    const newTodo = new Todo({ title: userInput }); // Create a new Todo document
+    await newTodo.save(); // Save it to the database
+    console.log("Saved to database:", newTodo);
+  } catch (err) {
+    console.error("Error saving to database:", err);
+    res.status(500).send("<h1>Failed to save to database</h1>");
+  }
 });
 
 app.get("/name", function (req, res) {

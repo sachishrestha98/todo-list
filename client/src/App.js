@@ -40,8 +40,41 @@ function App() {
     }
   };
 
+  // Function to toggle the 'completed' field
+const toggleCompleted = async (id, currentStatus) => {
+  try {
+    const response = await fetch(`http://localhost:3000/todos/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ completed: !currentStatus }), // Toggle the completed status
+    });
+
+    const updatedTodo = await response.json();
+
+    // Update the state with the updated todo
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo._id === updatedTodo._id ? updatedTodo : todo
+      )
+    );
+  } catch (error) {
+    console.error("Error updating todo:", error);
+  }
+};
+
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        textAlign: "center",
+      }}
+    >
       <h1>To-Do List</h1>
       
       {/* Input for adding new todo */}
@@ -55,10 +88,20 @@ function App() {
 
       {/* Display list of todos */}
       <ul>
-        {todos.map((todo) => (
-          <li key={todo._id}>{todo.title}</li>
-        ))}
-      </ul>
+  {todos.map((todo) => (
+    <li key={todo._id} style={{ display: "flex", alignItems: "center" }}>
+      <input
+        type="checkbox"
+        checked={todo.completed} // Bind the checkbox to the 'completed' field
+        onChange={() => toggleCompleted(todo._id, todo.completed)} // Toggle the completed status
+        style={{ marginRight: "10px" }}
+      />
+      <span style={{ textDecoration: todo.completed ? "line-through" : "none" }}>
+        {todo.title}
+      </span>
+    </li>
+  ))}
+</ul>
     </div>
   );
 }
